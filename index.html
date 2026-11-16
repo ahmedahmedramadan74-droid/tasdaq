@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tasadaq Wansor</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="i-img" viewBox="0 0 24 24"><rect x="2.5" y="3.5" width="19" height="17" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="8.5" cy="9" r="1.8" fill="currentColor"/><path d="M3 18l5.5-5.5 4 4 3-3L21 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9.5"/><ellipse cx="12" cy="12" rx="4" ry="9.5"/><path d="M2.5 12h19M4 7h16M4 17h16"/></g></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4.2" fill="currentColor"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7z" fill="currentColor"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z" fill="currentColor"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M5 15V6.5A2.5 2.5 0 0 1 7.5 4H15"/></g></symbol>
+</svg>
+
+<header class="topbar">
+  <span data-i18n="siteUrl">Tasadaq Wansor</span>
+  <a id="joinLink" class="join" href="#" target="_blank" rel="noopener noreferrer" dir="ltr" lang="en" aria-label="Join our Telegram channel" title="Join our Telegram channel" data-i18n-aria="joinLabel" data-i18n-title="joinLabel">JOIN</a>
+</header>
+
+<div class="container">
+  <div class="titlebar">
+    <h1 id="pageTitle" data-i18n="brand">Tasadaq Wansor</h1>
+    <div class="lang">
+      <button id="langBtn" class="globe" aria-label="Language" data-i18n-aria="langLabel" aria-haspopup="true"><svg class="icon"><use href="#i-globe"/></svg></button>
+      <ul id="langMenu" class="lang-menu" hidden>
+        <li><button data-lang="ar">العربية 🇪🇬</button></li>
+        <li><button data-lang="en">English 🇬🇧</button></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- الصفحة الرئيسية -->
+  <main id="home" class="view">
+    <img id="homeCircle" class="hero-circle" src="images/home-circle.svg" alt="">
+    <div class="hero-text">
+      <h2 data-i18n="heroTitle"></h2>
+      <p data-i18n="heroSub"></p>
+    </div>
+    <p class="lead" data-i18n="lead"></p>
+    <hr>
+    <h3 class="section-title" data-i18n="sectionTitle"></h3>
+    <div class="frames" id="frames"></div>
+  </main>
+
+  <!-- الصفحة الثانية (قالب واحد يُعاد استخدامه) -->
+  <main id="gallery" class="view" hidden>
+    <button id="backBtn" class="back" data-i18n="back"></button>
+    <img id="galleryHero" class="gallery-hero" src="" alt="">
+    <h2 id="gTitle" class="g-title"></h2>
+    <p id="gText" class="lead"></p>
+    <div id="grid" class="grid"></div>
+  </main>
+
+  <!-- الصفحة الثالثة (نفس الصفحة الموجودة، يفتحها الإطار الثاني) — دليل منتجات المقاطعة -->
+  <main id="page3" class="view" hidden>
+    <button id="p3Back" class="back" data-i18n="back"></button>
+    <img id="p3Hero" class="p3-hero" src="" alt="">
+    <h2 id="p3Title" class="p3-title"></h2>
+    <p id="p3Text" class="p3-text"></p>
+    <div class="p3-tools" role="search">
+      <label for="p3Search" class="sr-only" data-i18n="p3SearchLabel"></label>
+      <input id="p3Search" class="p3-search" type="search" dir="auto" autocomplete="off">
+      <div id="p3Filters" class="p3-filters" role="group" aria-label="Filter"></div>
+    </div>
+    <p id="p3Count" class="p3-count" aria-live="polite"></p>
+    <div id="p3Frames"></div>
+    <p id="p3Empty" class="p3-empty" data-i18n="p3Empty" hidden></p>
+    <p id="p3Note" class="p3-note" data-i18n="p3Note"></p>
+  </main>
+
+  <!-- صفحة تفاصيل المنتج (تُفتح بالضغط على بطاقة المنتج) -->
+  <main id="page4" class="view" hidden>
+    <button id="p4Back" class="back" data-i18n="back"></button>
+    <article class="pd">
+      <img id="p4Img" class="pd-img" src="" alt="" referrerpolicy="no-referrer">
+      <div class="pd-info">
+        <h2 id="p4Title" class="pd-title"></h2>
+        <div class="ppub pd-pub">
+          <img id="p4Avatar" class="avatar avatar-lg" src="images/avatars/default.svg" alt="">
+          <div class="pd-pubtext"><small id="p4PubLabel"></small><strong id="p4Co"></strong></div>
+        </div>
+        <div class="pd-meta"><span id="p4Badge" class="pbadge"></span><span id="p4Cat" class="pbadge"></span></div>
+        <h3 id="p4DescLabel" class="pd-h"></h3>
+        <p id="p4Desc" class="pd-desc"></p>
+        <p id="p4Rev" class="prev"></p>
+        <p id="p4Credit" class="pd-credit" hidden></p>
+        <a id="p4Src" class="psrc" href="#" target="_blank" rel="noopener noreferrer"></a>
+      </div>
+    </article>
+    <p class="p3-note" data-i18n="p3Note"></p>
+  </main>
+</div>
+<div id="toast" class="toast" hidden></div>
+<script src="data/sources.js"></script>
+<script src="data/entries.js"></script>
+<script src="data/photos.js"></script>
+<script src="data/photos-external.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
