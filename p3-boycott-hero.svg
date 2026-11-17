@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" role="img" aria-label="Boycott guide">
+<defs><linearGradient id="b" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b0b0b"/><stop offset="1" stop-color="#5a0000"/></linearGradient></defs>
+<rect width="1200" height="400" fill="url(#b)"/>
+<g fill="none" stroke="#fff" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" opacity=".95" transform="translate(420 70)">
+<path d="M20 40 H80 L120 190 H300 L340 90 H100"/><circle cx="150" cy="240" r="20"/><circle cx="280" cy="240" r="20"/></g>
+<g transform="translate(600 200)"><circle r="170" fill="none" stroke="#ff0000" stroke-width="22"/><path d="M-120 -120 L120 120" stroke="#ff0000" stroke-width="22" stroke-linecap="round"/></g>
+</svg>
