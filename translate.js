@@ -4,7 +4,7 @@
    كيف تعمل:
    - أي عنصر/عنوان/وصف/شركة/مصدر/بطاقة جديدة يكتفي بلغة واحدة (الجانب الآخر فارغ "" أو نص مفرد)
      تُترجَم لغته الناقصة تلقائيًا عند فتح الموقع.
-   - أي نص له اللغتان معًا (كل المحتوى الحالي) لا يُلمس إطلاقًا (حتى لو عدّلتَ أحد جانبيه، إلا إن فعّلتَ TRANSLATE_REFRESH_EDITED).
+   - أي نص له اللغتان معًا (كل المحتوى الحالي) لا يُلمس إطلاقًا.
    - أثناء انتظار الترجمة (أو إن تعذّرت) يُعرض النص الأصلي، ولا يُعرض فراغ أبدًا.
    - الترجمة تُحفظ في localStorage (وفي data/translations-seed.js إن صدّرتها) فلا تُعاد.
    - المترجم: مترجم Chrome المدمج إن كان متاحًا دون تنزيل، وإلا خدمة MyMemory المجانية.
@@ -85,9 +85,6 @@ const slots=[];
 /* بصمة كل زوج نصوص كما شُحن (data/translations-baseline.js): إن تغيّر أحد الجانبين وحده بعد ذلك
    (عدّلتَ العربية مثلًا) فالجانب الآخر قديم، فيُعاد ترجمته من الجانب المعدَّل. إن عدّلتَ الجانبين معًا لا يُلمس شيء. */
 const BASE=(typeof TRANSLATION_BASELINE!=="undefined"&&TRANSLATION_BASELINE)||{}, known={};
-/* افتراضيًا: أي نص له اللغتان معًا لا يُلمس أبدًا (حتى لو عدّلتَ أحد جانبيه).
-   لتفعيل «إعادة ترجمة الجانب القديم بعد تعديل الجانب الآخر» ضع قبل هذا الملف: window.TRANSLATE_REFRESH_EDITED=true */
-const REFRESH_EDITED=window.TRANSLATE_REFRESH_EDITED===true;
 /* النص الأصلي يظهر مؤقتًا في الخانة المراد ترجمتها إلى أن تصل الترجمة (أو دائمًا إن تعذّرت) */
 function queue(text,from,to,setTo){
   setTo(text);
@@ -99,7 +96,7 @@ function consider(key,ve,setE,va,setA){
   const hE=has(ve), hA=has(va);
   if(hE&&hA){
     known[key]=[h53(ve),h53(va)];
-    const b=BASE[key]; if(!b||!REFRESH_EDITED) return;
+    const b=BASE[key]; if(!b) return;
     const enSame=known[key][0]===b[0], arSame=known[key][1]===b[1];
     if(enSame===arSame) return;                   // كلاهما كما شُحن، أو كلاهما عُدِّل: لا تدخّل
     const from=enSame?"ar":"en", to=enSame?"en":"ar";

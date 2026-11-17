@@ -19,14 +19,14 @@ const IMAGES={
 
 /* ========= المحتوى (عدّل النصوص والصور من هنا) ========= */
 const UI = {
-  en:{siteUrl:"Tasadaq Wansor Telegram",brand:"Tasadaq Wansor",langLabel:"Language",joinLabel:"Join our Telegram channel",joinMissing:"Add the Telegram channel link in script.js (TELEGRAM_URL)",heroTitle:"Learn. Build. Secure.",heroSub:"Practical tech knowledge for everyone",
-      lead:"Welcome to ant, your home for hands-on tutorials, tools and ideas. Pick a collection below to explore photos and stories.",
+  en:{siteUrl:"ant Telegram",brand:"Tasadaq Wansor",langLabel:"Language",joinLabel:"Join our Telegram channel",joinMissing:"Add the Telegram channel link in script.js (TELEGRAM_URL)",heroTitle:"Learn. Build. Secure.",heroSub:"Practical tech knowledge for everyone",
+      lead:"Welcome to Tasadaq Wansor, your home for hands-on tutorials, tools and ideas. Pick a collection below to explore photos and stories.",
       sectionTitle:"Explore Collections",back:"← Back",copied:"Copied successfully ✓",copyName:"Copy name",copyDesc:"Copy description",noVideo:"Add this video link in script.js (COLLECTIONS → video → url)",
       p3SearchLabel:"Search the products guide",p3Empty:"No products match your search.",
       p3Note:"Entries summarize the linked sources. Boycott calls and accusations are attributed to the named campaign groups or publications and are not independent findings of this site. Please open the source link and verify before sharing. Last reviewed: 13 Nov 2026."},
   ar:{siteUrl:"Tasadaq Wansor Telegram",brand:"Tasadaq Wansor",langLabel:"اللغة",joinLabel:"انضم إلى قناتنا على تليجرام",joinMissing:"أضف رابط قناة التليجرام في script.js (TELEGRAM_URL)",heroTitle:"Tasadaq Wansor",heroSub:" 2026/11/14",
       lead:"نحن مجموعة من الباحثين المتخصصين نقوم بجمع حسابات إنستغرام وأرقام هواتف الأشخاص الأكثر احتياجاً في قطاع غزه وذلك بهدف إيصال الصدقات إليهم نحن لا نتبع لأي منظمات خيرية او جهات أخرى Tasadaq Wansor لقد تلقينا العديد من الرسائل التي تستفسر عن حسابات موثوقة يمكن التبرع من خلالها ولذلك، قمنا بإنشاء موقع تصدّق وانصر",
-      sectionTitle:" يجري حالياً تحديث الموقع وهناك المزيد في الطريق وسنوافيكم بالمستجدات فور إضافة تحديثات أخرى     ",back:"→ رجوع",copied:"تم النسخ بنجاح ✓",copyName:"نسخ الاسم",copyDesc:"نسخ الوصف",noVideo:"أضف رابط الفيديو في script.js (COLLECTIONS ← video ← url)",
+      sectionTitle:" يجري حالياً تحديث الموقع وهناك المزيد في الطريق وسنوافيكم بالمستجدات فورant إضافة تحديثات أخرى     ",back:"→ رجوع",copied:"تم النسخ بنجاح ✓",copyName:"نسخ الاسم",copyDesc:"نسخ الوصف",noVideo:"أضف رابط الفيديو في script.js (COLLECTIONS ← video ← url)",
       p3SearchLabel:"ابحث في دليل المنتجات",p3Empty:"لا توجد منتجات مطابقة لبحثك.",
       p3Note:"المعلومات ملخّصة من المصادر المرفقة. دعوات المقاطعة والاتهامات منسوبة إلى الجهات أو المنشورات المذكورة، وليست نتائج تحقق مستقلة من هذا الموقع. افتح رابط المصدر وتحقق منه قبل المشاركة. آخر مراجعة: 13 نوفمبر 2026."}
 };
