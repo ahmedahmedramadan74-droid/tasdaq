@@ -19,14 +19,14 @@ const IMAGES={
 
 /* ========= المحتوى (عدّل النصوص والصور من هنا) ========= */
 const UI = {
-  en:{siteUrl:"ant Telegram",brand:"Tasadaq Wansor",langLabel:"Language",joinLabel:"Join our Telegram channel",joinMissing:"Add the Telegram channel link in script.js (TELEGRAM_URL)",heroTitle:"Learn. Build. Secure.",heroSub:"Practical tech knowledge for everyone",
+  en:{siteUrl:"Tasadaq Wansor Telegram",brand:"Tasadaq Wansor",langLabel:"Language",joinLabel:"Join our Telegram channel",joinMissing:"Add the Telegram channel link in script.js (TELEGRAM_URL)",heroTitle:"Learn. Build. Secure.",heroSub:"Practical tech knowledge for everyone",
       lead:"Welcome to Tasadaq Wansor, your home for hands-on tutorials, tools and ideas. Pick a collection below to explore photos and stories.",
       sectionTitle:"Explore Collections",back:"← Back",copied:"Copied successfully ✓",copyName:"Copy name",copyDesc:"Copy description",noVideo:"Add this video link in script.js (COLLECTIONS → video → url)",
       p3SearchLabel:"Search the products guide",p3Empty:"No products match your search.",
       p3Note:"Entries summarize the linked sources. Boycott calls and accusations are attributed to the named campaign groups or publications and are not independent findings of this site. Please open the source link and verify before sharing. Last reviewed: 13 Nov 2026."},
   ar:{siteUrl:"Tasadaq Wansor Telegram",brand:"Tasadaq Wansor",langLabel:"اللغة",joinLabel:"انضم إلى قناتنا على تليجرام",joinMissing:"أضف رابط قناة التليجرام في script.js (TELEGRAM_URL)",heroTitle:"Tasadaq Wansor",heroSub:" 2026/11/14",
       lead:"نحن مجموعة من الباحثين المتخصصين نقوم بجمع حسابات إنستغرام وأرقام هواتف الأشخاص الأكثر احتياجاً في قطاع غزه وذلك بهدف إيصال الصدقات إليهم نحن لا نتبع لأي منظمات خيرية او جهات أخرى Tasadaq Wansor لقد تلقينا العديد من الرسائل التي تستفسر عن حسابات موثوقة يمكن التبرع من خلالها ولذلك، قمنا بإنشاء موقع تصدّق وانصر",
-      sectionTitle:" يجري حالياً تحديث الموقع وهناك المزيد في الطريق وسنوافيكم بالمستجدات فورant إضافة تحديثات أخرى     ",back:"→ رجوع",copied:"تم النسخ بنجاح ✓",copyName:"نسخ الاسم",copyDesc:"نسخ الوصف",noVideo:"أضف رابط الفيديو في script.js (COLLECTIONS ← video ← url)",
+      sectionTitle:" يجري حالياً تحديث الموقع وهناك المزيد في الطريق وسنوافيكم بالمستجدات فور إضافة تحديثات أخرى     ",back:"→ رجوع",copied:"تم النسخ بنجاح ✓",copyName:"نسخ الاسم",copyDesc:"نسخ الوصف",noVideo:"أضف رابط الفيديو في script.js (COLLECTIONS ← video ← url)",
       p3SearchLabel:"ابحث في دليل المنتجات",p3Empty:"لا توجد منتجات مطابقة لبحثك.",
       p3Note:"المعلومات ملخّصة من المصادر المرفقة. دعوات المقاطعة والاتهامات منسوبة إلى الجهات أو المنشورات المذكورة، وليست نتائج تحقق مستقلة من هذا الموقع. افتح رابط المصدر وتحقق منه قبل المشاركة. آخر مراجعة: 13 نوفمبر 2026."}
 };
@@ -403,12 +403,12 @@ PRODUCTS.forEach(p=>p.idx=norm([p.id,p.n[0],p.n[1],p.co[0],p.co[1],p.r.en,p.r.ar
 
 /* ========= الأدوات ========= */
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-let lang=(()=>{try{const v=localStorage.getItem("lang");return v==="en"||v==="ar"?v:"ar"}catch(_){return"ar"}})(), current=null, p3=null, pd=null, p3Y=0, backing=false;
+let lang=localStorage.getItem("lang")||"en", current=null, p3=null, pd=null, p3Y=0, pushed=false;
 const home=$("#home"), gallery=$("#gallery"), gHero=$("#galleryHero"), page3=$("#page3"), p3Hero=$("#p3Hero"), page4=$("#page4");
 
 /* ========= اللغة ========= */
 function applyLang(l){
-  lang=l;
+  lang=l; localStorage.setItem("lang",l);
   document.documentElement.lang=l; document.documentElement.dir=l==="ar"?"rtl":"ltr";
   $$("[data-i18n]").forEach(e=>e.textContent=UI[l][e.dataset.i18n]);
   $$("[data-i18n-aria]").forEach(e=>e.setAttribute("aria-label",UI[l][e.dataset.i18nAria]));
@@ -424,7 +424,7 @@ function applyLang(l){
 const langBtn=$("#langBtn"), menu=$("#langMenu");
 langBtn.onclick=e=>{e.stopPropagation();menu.hidden=!menu.hidden};
 document.onclick=()=>menu.hidden=true;
-$$("#langMenu button").forEach(b=>b.onclick=()=>{try{localStorage.setItem("lang",b.dataset.lang)}catch(_){}applyLang(b.dataset.lang);menu.hidden=true});
+$$("#langMenu button").forEach(b=>b.onclick=()=>{applyLang(b.dataset.lang);menu.hidden=true});
 
 /* مسار صورة البطاقة: من قائمة images في المجموعة، وإلا النمط الاحتياطي gallery{id}-{n}.svg */
 const cardImg=(id,n)=>(COLLECTIONS[id].images||[])[n]||`images/gallery${id}-${n+1}.svg`;
@@ -481,30 +481,16 @@ function morph(from,to,swap){
                 {duration:650,easing:"cubic-bezier(.65,0,.35,1)",fill:"forwards"})
        .finished.then(()=>{clone.remove();to.style.visibility=""});
 }
-/* ========= زر الرجوع في الهاتف (History API) =========
-   كل مستوى يُفتح يضيف سجلًا واحدًا: 0 = الرئيسية، 1 = مجموعة/دليل، 2 = تفاصيل منتج.
-   زر الرجوع الداخلي يستدعي history.back() فيتصرف كزر الهاتف تمامًا. */
-const pushNav=s=>{try{history.pushState(s,"")}catch(_){}};
-const atLv=n=>!!(history.state&&history.state.lv===n);
-function goBack(n,direct){
-  if(atLv(n)){ if(!backing){backing=true;history.back()} }   // backing يمنع ضغطتين متتاليتين من الخروج من الموقع
-  else direct();
-}
-try{history.replaceState({lv:0},"")}catch(_){}               // يثبّت نقطة البداية ويمنع سجلًا ميتًا بعد إعادة التحميل
-function openCollection(id,noPush){
-  if(current!==null||p3!==null) return;
-  if(COLLECTIONS[id].page==="page3") return openPage3(id,noPush);
+function openCollection(id){
+  if(COLLECTIONS[id].page==="page3") return openPage3(id);
   current=id; renderGallery(id);
   const thumb=$(`.frame[data-id="${id}"] .thumb`);
   morph(thumb,gHero,()=>{home.hidden=true;gallery.hidden=false;scrollTo(0,0)});
-  if(!noPush) pushNav({lv:1,id});
 }
-function closeGallery(){
-  if(current===null) return;
+$("#backBtn").onclick=()=>{
   const thumb=$(`.frame[data-id="${current}"] .thumb`);
   morph(gHero,thumb,()=>{gallery.hidden=true;home.hidden=false;thumb.scrollIntoView({block:"center"});current=null});
-}
-$("#backBtn").onclick=()=>goBack(1,closeGallery);
+};
 /* ========= الصفحة الثالثة: دليل منتجات المقاطعة ========= */
 const esc=t=>String(t).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
 const P3={cat:"all",q:"",menu:false};
@@ -591,18 +577,15 @@ document.addEventListener("keydown",e=>{
   const i=items.indexOf(document.activeElement);
   items[(i+(e.key==="ArrowDown"?1:-1)+items.length)%items.length].focus();
 });
-function openPage3(id,noPush){
+function openPage3(id){
   p3=id; P3.q=""; P3.cat="all"; P3.menu=false; $("#p3Search").value=""; renderPage3();
   const thumb=$(`.frame[data-id="${id}"] .thumb`);
   morph(thumb,p3Hero,()=>{home.hidden=true;page3.hidden=false;scrollTo(0,0)});
-  if(!noPush) pushNav({lv:1,id});
 }
-function closePage3(){
-  if(p3===null) return;
+$("#p3Back").onclick=()=>{
   const thumb=$(`.frame[data-id="${p3}"] .thumb`);
   morph(p3Hero,thumb,()=>{page3.hidden=true;home.hidden=false;thumb.scrollIntoView({block:"center"});p3=null});
-}
-$("#p3Back").onclick=()=>goBack(1,closePage3);
+};
 
 /* ========= صفحة تفاصيل المنتج ========= */
 function renderProduct(){
@@ -630,26 +613,16 @@ function renderProduct(){
   if(im.complete&&im.naturalWidth) im.onload();
   const a=$("#p4Src"); a.href=p.src.url; a.textContent=T.source+": "+p.src[lang]+" ↗";
 }
-function openProduct(id,noPush){
+function openProduct(id){
   pd=id; p3Y=window.scrollY; renderProduct();
   page3.hidden=true; page4.hidden=false; scrollTo(0,0);
-  if(!noPush) pushNav({lv:2,id:p3,pd:id});
+  try{history.pushState({pd:id},"");pushed=true}catch(_){pushed=false}
 }
 function closeProduct(){
   if(pd===null) return;
   pd=null; page4.hidden=true; page3.hidden=false; scrollTo(0,p3Y);
 }
-$("#p4Back").onclick=()=>goBack(2,closeProduct);
-/* زر رجوع الهاتف/المتصفح (والأمام): يطابق الواجهة مع مستوى السجل دون إضافة سجلات جديدة */
-addEventListener("popstate",e=>{
-  backing=false;
-  const s=e.state||{}, lv=s.lv||0, was=current!==null||p3!==null;
-  if(pd!==null&&lv<2) closeProduct();
-  if(lv===0){ closeGallery(); closePage3(); }
-  else if(!was){
-    if(COLLECTIONS[s.id]){ openCollection(s.id,true); if(lv===2) try{history.replaceState({lv:1,id:s.id},"")}catch(_){} }
-  }
-  else if(lv===2&&pd===null&&p3!==null&&PRODUCTS.some(x=>x.id===s.pd)) openProduct(s.pd,true);
-});
+$("#p4Back").onclick=()=>{if(pushed){pushed=false;history.back()}else closeProduct()};
+addEventListener("popstate",()=>{pushed=false;closeProduct()});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&pd!==null)$("#p4Back").click()});
 applyLang(lang);
