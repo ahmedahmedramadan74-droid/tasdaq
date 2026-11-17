@@ -403,7 +403,10 @@ PRODUCTS.forEach(p=>p.idx=norm([p.id,p.n[0],p.n[1],p.co[0],p.co[1],p.r.en,p.r.ar
 
 /* ========= الأدوات ========= */
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-let lang=localStorage.getItem("lang")||"en", current=null, p3=null, pd=null, p3Y=0, pushed=false;
+let lang=localStorage.getItem("lang")||"en", current=null, p3=null, pd=null, p3Y=0, pushed=false, secPushed=false;
+/* زر الرجوع في الهاتف (History API): عمق الصفحة d = 0 الرئيسية، 1 قسم (معرض/دليل)، 2 تفاصيل منتج. */
+const pushSec=()=>{try{history.pushState({d:1},"");secPushed=true}catch(_){secPushed=false}};
+try{history.replaceState({d:0},"")}catch(_){}
 const home=$("#home"), gallery=$("#gallery"), gHero=$("#galleryHero"), page3=$("#page3"), p3Hero=$("#p3Hero"), page4=$("#page4");
 
 /* ========= اللغة ========= */
@@ -486,11 +489,13 @@ function openCollection(id){
   current=id; renderGallery(id);
   const thumb=$(`.frame[data-id="${id}"] .thumb`);
   morph(thumb,gHero,()=>{home.hidden=true;gallery.hidden=false;scrollTo(0,0)});
+  pushSec();
 }
-$("#backBtn").onclick=()=>{
+function closeGallery(){
   const thumb=$(`.frame[data-id="${current}"] .thumb`);
   morph(gHero,thumb,()=>{gallery.hidden=true;home.hidden=false;thumb.scrollIntoView({block:"center"});current=null});
-};
+}
+$("#backBtn").onclick=()=>{ if(secPushed) history.back(); else closeGallery() };
 /* ========= الصفحة الثالثة: دليل منتجات المقاطعة ========= */
 const esc=t=>String(t).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
 const P3={cat:"all",q:"",menu:false};
@@ -581,11 +586,13 @@ function openPage3(id){
   p3=id; P3.q=""; P3.cat="all"; P3.menu=false; $("#p3Search").value=""; renderPage3();
   const thumb=$(`.frame[data-id="${id}"] .thumb`);
   morph(thumb,p3Hero,()=>{home.hidden=true;page3.hidden=false;scrollTo(0,0)});
+  pushSec();
 }
-$("#p3Back").onclick=()=>{
+function closePage3(){
   const thumb=$(`.frame[data-id="${p3}"] .thumb`);
   morph(p3Hero,thumb,()=>{page3.hidden=true;home.hidden=false;thumb.scrollIntoView({block:"center"});p3=null});
-};
+}
+$("#p3Back").onclick=()=>{ if(secPushed) history.back(); else closePage3() };
 
 /* ========= صفحة تفاصيل المنتج ========= */
 function renderProduct(){
@@ -616,13 +623,18 @@ function renderProduct(){
 function openProduct(id){
   pd=id; p3Y=window.scrollY; renderProduct();
   page3.hidden=true; page4.hidden=false; scrollTo(0,0);
-  try{history.pushState({pd:id},"");pushed=true}catch(_){pushed=false}
+  try{history.pushState({d:2,pd:id},"");pushed=true}catch(_){pushed=false}
 }
 function closeProduct(){
   if(pd===null) return;
   pd=null; page4.hidden=true; page3.hidden=false; scrollTo(0,p3Y);
 }
 $("#p4Back").onclick=()=>{if(pushed){pushed=false;history.back()}else closeProduct()};
-addEventListener("popstate",()=>{pushed=false;closeProduct()});
+addEventListener("popstate",e=>{
+  const d=(e.state&&e.state.d)||0, cur=pd!==null?2:(p3!==null||current!==null?1:0);
+  if(d>=cur){ if(d>cur){try{history.go(cur-d)}catch(_){}} return }   // تقدّم (Forward): أبقِ الواجهة والسجل متطابقين
+  if(pd!==null&&d<2){pushed=false;closeProduct()}                   // من تفاصيل المنتج إلى الدليل
+  if(d<1){secPushed=false; if(p3!==null) closePage3(); else if(current!==null) closeGallery()}   // من القسم إلى الرئيسية
+});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&pd!==null)$("#p4Back").click()});
 applyLang(lang);
